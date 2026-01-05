@@ -1,11 +1,11 @@
 
 
-## 📦 Zepto Inventory Analysis using MySQL
+## 📦 Zepto Inventory & Pricing Analysis (MySQL)
 
 ### 🔍 Project Overview
 
 This project is an end-to-end **inventory and pricing analysis** built using **MySQL** on a real-world Zepto retail dataset.
-The goal is to simulate how a data analyst works with messy e-commerce inventory data to extract **business-relevant insights** around stock availability, pricing, discounts, and revenue opportunities.
+It simulates how a data analyst works with **messy e-commerce inventory data**, from ingestion and cleaning to deriving **business-relevant insights** around stock availability, pricing behavior, discounts, and revenue opportunities.
 
 ---
 
@@ -13,7 +13,7 @@ The goal is to simulate how a data analyst works with messy e-commerce inventory
 
 * **Database:** MySQL
 * **Language:** SQL
-* **Dataset:** Zepto Inventory Dataset (Kaggle)
+* **Dataset:** Zepto Inventory Dataset (Kaggle, v2)
 * **Environment:** MySQL Workbench
 
 ---
@@ -23,32 +23,32 @@ The goal is to simulate how a data analyst works with messy e-commerce inventory
 * **Rows:** 3,732
 * **Columns:** 9
 * **Granularity:** Each row represents a unique **SKU**
-  (same product name can appear multiple times due to different pack sizes, weights, or pricing)
+  (the same product name may appear multiple times due to different pack sizes, weights, or pricing)
 
-**Key Columns:**
+**Key Attributes:**
 
-* Product Category
-* Product Name
+* Product category
+* Product name
 * MRP
-* Discount Percentage
-* Available Quantity
-* Discounted Selling Price
+* Discount percentage
+* Available quantity
+* Discounted selling price
 * Weight (grams)
-* Out of Stock (boolean)
+* Out-of-stock flag
 * Quantity per pack
 
 ---
 
-### 🧱 Database Schema Design
+### 🧱 Data Modeling & Schema Design
 
-A structured table was created to support analysis.
+The dataset was modeled into structured tables to support reliable analysis.
 
-**Table Name:** `zepto_inventory`
+**Analytics Table:** `zepto_inventory_clean`
 
 ```sql
-sku_id INT AUTO_INCREMENT PRIMARY KEY,
+sku_id INT PRIMARY KEY,
 category VARCHAR(100),
-product_name VARCHAR(255) NOT NULL,
+product_name VARCHAR(255),
 mrp DECIMAL(10,2),
 discount_percent DECIMAL(5,2),
 available_quantity INT,
@@ -58,72 +58,64 @@ out_of_stock BOOLEAN,
 quantity INT
 ```
 
-**Design Considerations:**
+**Design Decisions:**
 
-* Added a surrogate primary key (`sku_id`) for database integrity
-* Used numeric data types to support calculations
-* Enforced `NOT NULL` where appropriate
+* Introduced a surrogate primary key for consistency and traceability
+* Used numeric data types to support aggregations and calculations
+* Maintained a raw-to-clean table flow to preserve original data
 
 ---
 
 ### 🧹 Data Cleaning & Preparation
 
-Real-world data issues were handled directly in SQL:
+Real-world data issues were handled directly in SQL, including:
 
-* Verified absence of NULL values across columns
-* Identified and removed invalid records (e.g., MRP = 0)
-* Converted pricing values from **paise to rupees** using update queries
-* Standardized numeric formats for analysis readiness
+* Resolving encoding inconsistencies during ingestion
+* Normalizing boolean fields (`TRUE / FALSE` → `0 / 1`)
+* Converting pricing values from **paise to rupees**
+* Removing invalid records (e.g., MRP = 0)
+* Standardizing column naming and data types for analysis
 
 ---
 
 ### 📊 Business Analysis Performed
 
-#### 📦 Inventory Insights
+#### 📦 Inventory Analysis
 
-* Identified **out-of-stock products** and quantified inventory gaps
-* Detected duplicate product names caused by different SKUs
-* Segmented products by weight:
-
-  * Low (< 1kg)
-  * Medium (< 5kg)
-  * Bulk (> 5kg)
+* Identified out-of-stock products and quantified inventory gaps
+* Highlighted high-MRP products with low stock, indicating potential revenue risk
+* Segmented products by weight (Low, Medium, Bulk) to understand inventory composition
 
 #### 💰 Pricing & Revenue Analysis
 
-* Ranked products offering **50%+ discounts**
-* Identified **high-MRP items currently out of stock** (missed revenue)
-* Estimated category-level revenue using:
-
-  ```
-  selling_price × available_quantity
-  ```
-* Found expensive items (MRP > 500) with low discounts (< 10%)
+* Analyzed products offering **50%+ discounts** to evaluate discount strategies
+* Identified high-value items currently out of stock, representing missed revenue opportunities
+* Estimated category-level revenue using `selling_price × available_quantity`
+* Found expensive products (MRP > 500) sustaining low discounts (< 10%), indicating strong demand
 
 #### 🏷️ Category & Value Analysis
 
-* Calculated **average discount per category**
-* Identified best **value-for-money products** using price per gram
-* Analyzed total inventory weight contribution per category
-  (useful for logistics & warehouse planning)
+* Calculated average discount by category
+* Evaluated value-for-money products using price-per-gram metrics
+* Assessed inventory weight contribution by category for operational planning
 
 ---
 
 ### 📌 Key Takeaways
 
-* High discounts do not always translate to higher revenue
-* Out-of-stock high-value items represent significant lost sales
-* Certain categories rely less on discounts, indicating strong demand
-* Inventory weight distribution can inform operational decisions
+* High discounts do not always correlate with higher revenue
+* Inventory availability has a greater impact on revenue than discount percentage alone
+* Several high-demand products maintain low discounts without affecting sales
+* Stocking high-value items adequately can prevent significant revenue loss
 
 ---
 
 ### 📁 Repository Structure
 
 ```
-├── data/        # Dataset reference & metadata
-├── sql/         # MySQL queries (cleaning + analysis)
-├── insights/    # Business findings & summaries
+├── data/        # Dataset documentation (source & metadata)
+├── sql/         # MySQL scripts (ingestion, cleaning, analysis)
+├── insights/    # Business insights and supporting evidence
 └── README.md
 ```
 
@@ -133,12 +125,15 @@ Real-world data issues were handled directly in SQL:
 
 This project demonstrates the ability to:
 
-* Work with **real, imperfect retail data**
-* Perform **data cleaning directly in SQL**
-* Design **business-driven analytical queries**
-* Translate raw numbers into **actionable insights**
-
+* Handle **real-world, imperfect retail data**
+* Build a **raw → clean → analysis** SQL workflow
+* Write **business-driven SQL queries**
+* Translate analytical results into **actionable business insights**
 
 > Supporting query outputs and schema validation screenshots are available in `insights/screenshots/`.
+
+
+
+
 
 
