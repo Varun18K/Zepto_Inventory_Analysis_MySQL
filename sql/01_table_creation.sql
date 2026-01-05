@@ -1,6 +1,4 @@
--- ============================================
--- STEP 1: Database & Table Creation
--- ============================================
+
 
 CREATE DATABASE IF NOT EXISTS zepto_inventory;
 USE zepto_inventory;
