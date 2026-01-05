@@ -1,6 +1,4 @@
--- ============================================
--- STEP 2: Data Cleaning
--- ============================================
+
 
 -- Remove invalid price records
 DELETE FROM zepto_inventory
