@@ -139,5 +139,6 @@ This project demonstrates the ability to:
 * Translate raw numbers into **actionable insights**
 
 
+> Supporting query outputs and schema validation screenshots are available in `insights/screenshots/`.
 
 
