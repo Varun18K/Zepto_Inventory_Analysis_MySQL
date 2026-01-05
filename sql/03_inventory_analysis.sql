@@ -1,6 +1,4 @@
--- ============================================
--- STEP 3: Inventory Analysis
--- ============================================
+
 
 -- Out-of-stock vs available products
 SELECT 
