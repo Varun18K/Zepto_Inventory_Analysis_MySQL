@@ -121,14 +121,7 @@ Real-world data issues were handled directly in SQL, including:
 
 ---
 
-### 🎯 Why This Project Matters
 
-This project demonstrates the ability to:
-
-* Handle **real-world, imperfect retail data**
-* Build a **raw → clean → analysis** SQL workflow
-* Write **business-driven SQL queries**
-* Translate analytical results into **actionable business insights**
 
 > Supporting query outputs and schema validation screenshots are available in `insights/screenshots/`.
 
